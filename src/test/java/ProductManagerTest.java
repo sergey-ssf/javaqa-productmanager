@@ -109,9 +109,32 @@ public class ProductManagerTest {
     }
 
 
-    // 3.2 Проверяем, что можем найти книгу по названию.
+    // 3.2 Проверяем, что можем найти телефон и книгу по названию.
     @Test
     public void findProductPhoneByTextTest() {
+        Smartphone phone1 = new Smartphone(1, "iPhone 1", 450, "Samsung");
+        Smartphone phone2 = new Smartphone(2, "Galaxy 2", 500, "Samsung");
+        Smartphone phone3 = new Smartphone(3, "iPhone 3", 1550, "Apple");
+
+        manager.add(phone1);
+        manager.add(phone2);
+        manager.add(phone3);
+
+        Book book4 = new Book(4, "Last Day of The Galaxy 1", 400, "Conan");
+        Book book5 = new Book(5, "Dragon 1", 650, "Conan");
+
+        manager.add(book4);
+        manager.add(book5);
+
+        Product[] expected = {phone2, book4};
+        Product[] actual = manager.searchBy("Galaxy");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // 3.3 Проверяем, что можем найти 1 телефона по названию.
+    @Test
+    public void find2ProductsByTextTest() {
         Smartphone phone1 = new Smartphone(1, "Galaxy 1", 450, "Samsung");
         Smartphone phone2 = new Smartphone(2, "Galaxy 2", 500, "Samsung");
         Smartphone phone3 = new Smartphone(3, "iPhone 3", 1550, "Apple");
@@ -120,10 +143,29 @@ public class ProductManagerTest {
         manager.add(phone2);
         manager.add(phone3);
 
-        Product[] expected = {phone1, phone2};
-        Product[] actual = manager.searchBy("Galaxy");
+        Product[] expected = {phone3};
+        Product[] actual = manager.searchBy("iPhone");
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    // 3.4 Проверяем, что можем не найти ни одного продукта по названию.
+    @Test
+    public void findNoProductsByTextTest() {
+        Smartphone phone1 = new Smartphone(1, "Galaxy 1", 450, "Samsung");
+        Smartphone phone2 = new Smartphone(2, "Galaxy 2", 500, "Samsung");
+        Smartphone phone3 = new Smartphone(3, "iPhone 3", 1550, "Apple");
+
+        manager.add(phone1);
+        manager.add(phone2);
+        manager.add(phone3);
+
+        Product[] expected = { };
+        Product[] actual = manager.searchBy("rex");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+
 
 }
